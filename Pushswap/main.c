@@ -14,9 +14,11 @@ int main()
     add_num_to_stack(&root,&tail,2);
     add_num_to_stack(&root,&tail,3);
     print_list(root,tail);
-    add_node_to_stack(&root2,&tail2,pop_stack(&root,&tail));
-    add_node_to_stack(&root2,&tail2,pop_stack(&root,&tail));
-    add_node_to_stack(&root2,&tail2,pop_stack(&root,&tail));
-    print_list(root2,tail2);
+    swap_s(&tail,'a');
     print_list(root,tail);
+    push_b(&root2,&tail2,&root,&tail);
+    ft_printf("\n");
+    print_list(root,tail);
+    ft_printf("\n");
+    print_list(root2,tail2);
 }
