@@ -1,11 +1,11 @@
 NAME := push_swap
 
-ARC := libpush_swap.a
+ARC := include/libpush_swap.a
 
-MAİN := src/push_swap.c
+MAİN := src/main.c
 
-SRCS :=	src/ft_prchrstrng.c src/ft_printf.c src/ft_putnum_unum.c src/stack_crt_functions.c \
-		src/rotates.c src/push_and_swap.c
+SRCS :=	src/ft_printf/ft_prchrstrng.c src/ft_printf/ft_printf.c src/ft_printf/ft_putnum_unum.c\
+		 src/stack_create_functions.c src/rotates.c src/swap_and_push.c src/ft_atol.c src/push_swap_utils.c
 
 OBJ := $(SRCS:%.c=%.o)
 
