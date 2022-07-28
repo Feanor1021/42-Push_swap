@@ -22,6 +22,15 @@ int dublicated_check(t_list *root, t_list *tail)
     return 1;
 }
 
+int string_checker(t_list **root, t_list **tail, char *argv)
+{
+    if(!add_node_to_stack(&(*root),&(*tail),ft_atol(argv)))
+        return 0;
+    if((*root!=*tail)&&(!dublicated_check(*root, *tail)))
+        return 0;
+    return 1;
+}
+
 int stack_create_and_control(t_list **root, t_list **tail,char **argv)
 {
     int i;
@@ -29,7 +38,6 @@ int stack_create_and_control(t_list **root, t_list **tail,char **argv)
     i = 1;
     while(argv[i])
     {
-        
         if(!add_node_to_stack(&(*root),&(*tail),ft_atol(argv[i])))
         {
             return 0;

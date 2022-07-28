@@ -24,7 +24,7 @@ int add_node_to_stack(t_list **root, t_list **tail, t_list *temp)
     return 1;
 }
 
-t_list  *create_stack_node(long num)
+t_list *create_stack_node(long num)
 {
     t_list *node;
     node = (t_list*)malloc(sizeof(t_list));
@@ -33,7 +33,7 @@ t_list  *create_stack_node(long num)
     node->num=num;
     return node;
 }
-t_list* pop_stack(t_list **root, t_list **tail)
+t_list *pop_stack(t_list **root, t_list **tail)
 {
     t_list* temp;
 

@@ -33,5 +33,6 @@ void swap_s( t_list **tail,char id);
 
 
 t_list*   ft_atol(const char *str);
+char	**ft_split(char const *s, char c);
 
 #endif
