@@ -9,6 +9,7 @@
 typedef struct push
 {
     long num;
+    int index;
     struct push *next;
     struct push *prev;
 }t_list;

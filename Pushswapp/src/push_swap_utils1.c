@@ -13,6 +13,10 @@ static int ft_isdigit_all(const char *str)
     int flag;
 
     flag = 0;
+    if (*str == '-')
+    {
+        str++;
+    }
     while(*str)
     {
     if (!(*str >= 48 && *str <=57))
