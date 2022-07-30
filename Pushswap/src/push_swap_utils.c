@@ -11,40 +11,31 @@ void print_list(t_list *root, t_list *tail)
         ft_printf("%d\n",root->num);
 }
 
-int dublicated_check(t_list *root, t_list *tail)
+size_t	ft_strlen(const char *s)
 {
-    while(tail!=root)
-    {
-        if(tail->num == root->num)
-            return 0;
-        root=root->next;
-    }
-    return 1;
+	size_t	i;
+
+	i = 0;
+	while (*(s + i))
+		i++;
+	return (i);
 }
 
-int string_checker(t_list **root, t_list **tail, char *argv)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-    if(!add_node_to_stack(&(*root),&(*tail),ft_atol(argv)))
-        return 0;
-    if((*root!=*tail)&&(!dublicated_check(*root, *tail)))
-        return 0;
-    return 1;
-}
+	size_t	i;
+	size_t	src_size;
 
-int stack_create_and_control(t_list **root, t_list **tail,char **argv)
-{
-    int i;
-
-    i = 1;
-    while(argv[i])
-    {
-        if(!add_node_to_stack(&(*root),&(*tail),ft_atol(argv[i])))
-        {
-            return 0;
-        }
-        if((*root!=*tail)&&(!dublicated_check(*root, *tail)))
-            return 0;
-        i++;
-    }
-    return 1;
+	i = 0;
+	src_size = ft_strlen(src);
+	if (dstsize)
+	{
+		while (src[i] && i < (dstsize - 1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (src_size);
 }
