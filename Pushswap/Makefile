@@ -22,7 +22,7 @@ $(ARC): $(OBJ)
 	ar -rcs $(ARC) $(OBJ)
 
 clean:
-	@rm -f src/*.o
+	@rm -f src/*.o src/ft_printf/*.o
 
 fclean: clean
 	@rm -f $(ARC) $(NAME)
