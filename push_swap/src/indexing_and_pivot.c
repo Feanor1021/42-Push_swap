@@ -1,82 +1,104 @@
 #include "push_swap.h"
 
-void set_index(t_list *root,t_list *tail)
+void set_index(t_stack stacks)
 {
-    while (tail != root)
+    while (stacks.tail != stacks.root)
     {
-        tail->index = -1;
-        tail = tail ->prev;
+        (stacks.tail)->index = -1;
+        stacks.tail = (stacks.tail) ->prev;
     }
-    root -> index = -1;
+    (stacks.root) -> index = -1;
 }
 
-void index_list(t_list **root, t_list **tail)
+void index_list(t_stack *stacks)
 {
     t_list *temp;
     int i;
     int k;
 
-    set_index(*root,*tail);
-    k = list_size(*root,*tail);
+    if (stacks->root == NULL)
+        return ;
+    set_index(*stacks);
+    k = list_size(*stacks);
     i = 0;
-    temp = find_smallest(*root,*tail);
+    temp = find_smallest(*stacks);
     temp->index = i;
     while (k!=0)
     {
-        temp = closest_list_num(*root,*tail,temp->num);
+        temp = closest_list_num(*stacks,temp->num);
         if(temp != NULL)
-        temp -> index = i+1;
+            temp -> index = i+1;
         i++;
         k--;
     }
 }
 
-t_list *closest_list_num(t_list *root, t_list *tail, int pivot)
+t_list *closest_list_num(t_stack stacks, long pivot)
 {
     int i;
-    int fark;
+    long fark;
     t_list *temp;
 
     i = 0;
-    fark = INT_MAX;
+    fark = LONG_MAX;
     temp = NULL;
-    while(tail != root)
+    while((stacks.tail != stacks.root) && (stacks.root != NULL))
     {
-        if((fark > (absolute_val(pivot - tail->num)))&&(tail->index == -1))
+        if((fark > (absolute_val(pivot - (stacks.tail)->num)))&&((stacks.tail)->index == -1))
         {
-            fark = pivot - tail->num;
-            temp = tail;
+            fark = pivot - (stacks.tail)->num;
+            temp = (stacks.tail);
         }
         fark = absolute_val(fark);
-        tail = tail->prev;
+        (stacks.tail) = (stacks.tail)->prev;
     }
-    if((fark > (absolute_val(pivot - tail->num)))&&(tail->index == -1))
+    if((fark > (absolute_val(pivot - (stacks.tail)->num)))&&((stacks.tail)->index == -1))
     {
-        fark = pivot - tail->num;
-        temp = tail;
+        fark = pivot - (stacks.tail)->num;
+        temp = (stacks.tail);
     }
     fark = absolute_val(fark);
     return temp;
 }
 
-int pivot_finder(t_list *root, t_list *tail)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	unsigned int	counter;
+	unsigned int	len_needle;
+
+	len_needle = ft_strlen(needle);
+	if (len_needle == 0)
+		return ((char *) haystack);
+	if (len == 0)
+		return ((char *) NULL);
+	counter = 0;
+	while (counter <= (len - len_needle) && haystack[counter] != '\0')
+	{
+		if (ft_strncmp(&haystack[counter], needle, len_needle) == 0)
+			return ((char *)&haystack[counter]);
+		counter++;
+	}
+	return ((char *) NULL);
+}
+
+int pivot_finder(t_stack stacks)
 {
     int min;
     int ret;
     int max;
     int a;
 
-    a=list_size(root,tail);
+    a=stacks.size;
     min = INT_MAX;
     max = INT_MIN;
     while (a)
     {
-        if(min > tail->index)
-            min = tail->index;
-       if(max < tail->index)
-            max = tail->index;
+        if(min > (stacks.tail)->index)
+            min = (stacks.tail)->index;
+       if(max < (stacks.tail)->index)
+            max = (stacks.tail)->index;
         a--;
-        tail = tail->prev;
+        (stacks.tail) = (stacks.tail)->prev;
     }
     ret = (max+min) / 2;
     return ret; 

@@ -1,27 +1,29 @@
 #include "push_swap.h"
 
+//swapleri güncelle
+// checker yazı yazmamalı onun için flag gönder ra v.sye yazmasın.
+//norm düzenle
+//pushla geç
+//gg
+
 int main(int argc, char **argv)
 {
-    t_list *root;
-    t_list *tail;
-    t_list *root2;
-    t_list *tail2;
+    t_stack stacks[2];
 
-    root=NULL;
-    tail=root;
-    root2=NULL;
-    tail2=root2;
+    stacks_init(&stacks[0],&stacks[1]);
     if(argc == 1)
-        ft_printf("Error\n");
-    else
+        exit(1);
+    if(!stack_create_and_control(&stacks[0], argv, argc - 1))
+        ft_error();
+    if(is_sorted(stacks[0]))
+        exit(1);
+   if((argc-1) > 5)
     {
-        if(!stack_create_and_control(&root, &tail, argv, argc - 1))
-        {
-            ft_printf("Error\n");
-            return 0;
-        }
+        index_list(&stacks[0]);
+        sort_stack(&stacks[0],&stacks[1]);
     }
-    index_list(&root,&tail);
-    sort_stack(&root,&tail,&root2,&tail2);
+    else
+        sort_small_stacks(&stacks[0],&stacks[1],argc -1);
+    free_all(&stacks[0],&stacks[1]);
     return 0;
 }

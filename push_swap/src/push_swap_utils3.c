@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 
-int	find_max_value(t_list *root, t_list *tail)
+int	find_max_value(t_stack stacks)
 {
 	int	i;
 	int	max;
@@ -9,42 +9,74 @@ int	find_max_value(t_list *root, t_list *tail)
 	int	index;
 
 	i = 0;
-    size = list_size(root,tail);
+    size = list_size(stacks);
 	max = INT_MIN;
 	while (i < size)
 	{
-		if (tail->index > max)
+		if ((stacks.tail)->index > max)
 		{
-			max = tail->index;
-			index = tail->index;
+			max = (stacks.tail)->index;
+			index = (stacks.tail)->index;
 		}
-        tail = tail->next;
+        (stacks.tail) = (stacks.tail)->next;
 		i++;
 	}
 	return (index);
 }
 
-t_list* find_smallest(t_list *root, t_list *tail)
+t_list* find_smallest(t_stack stacks)
 {
     t_list *temp;
 
-    temp = tail;
-    while (tail != root)
+    temp = stacks.tail;
+    while (stacks.tail != stacks.root)
     {
-        if (temp->num > tail->num){
-            temp = tail;
+        if (temp->num > (stacks.tail)->num){
+            temp = stacks.tail;
         }
-        tail = tail->prev;
+        stacks.tail = (stacks.tail)->prev;
     }
-    if (temp->num > tail->num){
-        temp = tail;
+    if (temp->num > (stacks.tail)->num){
+        temp = stacks.tail;
     }
     return temp; 
 }
 
-int absolute_val(int a)
+long absolute_val(long a)
 {
     if(a < 0)
     a= a* -1;
     return a;
+}
+
+void ft_error()
+{
+    write(2,"Error\n",ft_strlen("Error\n"));
+	exit(1);
+}
+
+void free_all(t_stack *stack_a, t_stack *stack_b)
+{
+    t_list *temp;
+
+    if(stack_a->root != NULL)
+    {
+        while(stack_a->tail != stack_a->root)
+        {
+            temp = pop_stack(stack_a);
+            free(temp);
+        }
+        if(stack_a->tail == stack_a->root)
+        free(stack_a->root);
+    }
+    if(stack_b->root != NULL)
+    {
+        while(stack_b->tail != stack_b->root)
+        {
+            temp = pop_stack(stack_b);
+            free(temp);
+        }
+        if(stack_b->tail == stack_b->root)
+         free(stack_b->root);
+    }
 }

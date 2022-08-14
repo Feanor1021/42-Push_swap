@@ -6,7 +6,7 @@
 /*   By: fyardimc <fyardimc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 21:26:25 by fyardimc          #+#    #+#             */
-/*   Updated: 2022/07/27 18:08:47 by fyardimc         ###   ########.fr       */
+/*   Updated: 2022/08/14 03:04:37 by fyardimc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include <stdio.h>
 # include <unistd.h>
 
 # define HEX1 "0123456789abcdef"

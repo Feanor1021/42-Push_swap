@@ -1,25 +1,25 @@
 #include "push_swap.h"
 
-int add_node_to_stack(t_list **root, t_list **tail, t_list *temp)
+int add_node_to_stack(t_stack* stacks, t_list *temp)
 {
     if(temp == NULL)
     {
         return 0;
     }
-    if(*root == NULL)
+    if((stacks->root) == NULL)
     {
-        *root = temp;
-        (*root)->next=*root;
-        (*root)->prev=*root;
-        *tail=*root;
+        (stacks->root) = temp;
+        (stacks->root)->next=(stacks->root);
+        (stacks->root)->prev=(stacks->root);
+        (stacks->tail)=(stacks->root);
     }
     else
     {
-        (*tail)->next=temp;
-        (*tail)->next->prev=(*tail);
-        (*tail)=(*tail)->next;
-        (*tail)->next=*root;
-        (*root)->prev=*tail;
+        (stacks->tail)->next=temp;
+        (stacks->tail)->next->prev=(stacks->tail);
+        (stacks->tail)=(stacks->tail)->next;
+        (stacks->tail)->next=(stacks->root);
+        (stacks->root)->prev=(stacks->tail);
     }
     return 1;
 }
@@ -33,25 +33,25 @@ t_list *create_stack_node(long num, t_list *tail)
     node->num=num;
     return node;
 }
-t_list *pop_stack(t_list **root, t_list **tail)
+t_list *pop_stack(t_stack *stacks)
 {
     t_list* temp;
 
-    if(root==NULL)
+    if((stacks->root)==NULL)
         return NULL;
-    else if((*root)->next==*root)
+    else if((stacks->root)->next==(stacks->root))
     {
-        temp=*root;
-        *root=NULL;
-        *tail=NULL;
+        temp=(stacks->root);
+        (stacks->root)=NULL;
+        (stacks->tail)=NULL;
         return temp;
     }
     else
     {
-        temp=*tail;
-        *tail=(*tail)->prev;
-        (*tail)->next=*root;
-        (*root)->prev=*tail;
+        temp=(stacks->tail);
+        (stacks->tail)=(stacks->tail)->prev;
+        (stacks->tail)->next=(stacks->root);
+        (stacks->root)->prev=(stacks->tail);
         return temp;
     }
     return NULL;

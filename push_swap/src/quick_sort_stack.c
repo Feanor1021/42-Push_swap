@@ -1,112 +1,118 @@
 #include "push_swap.h"
 
 
-int *find_min_path(t_list*root, t_list*tail, t_list *root2, t_list *tail2)
+void find_min_path(t_stack stack_a, t_stack stack_b, int* index_a, int* index_b)
 {
-    int size[2];
     int min;
     int a[2];
-    int *b;
     int i[2];
 
     min = INT_MAX;
-    size[0]=list_size(root2,tail2);
-    size[1]=list_size(root,tail);
-    b=malloc(sizeof(int)*2);
     i[0] = -1;
-    while(size[0]>++i[0])
+    i[1]= 0;
+    while(stack_b.size>++i[0])
     {
-        i[1]=find_min_rotate(root,tail,closest_index_b(root,tail,tail2->index,size[1]),size[1]);
-        if(i[0]<size[0]/2)
+        i[1]=find_min_rotate(stack_a,closest_index_b(stack_a,(stack_b.tail)->index,stack_a.size),stack_a.size);
+        if(i[0]<(stack_b.size/ 2))
             a[0]=i[0];
         else
-            a[0]=size[0]-i[0];
-        if(i[1]<size[1]/2)
+            a[0]=stack_b.size-i[0];
+        if(i[1]<(stack_a.size/2))
             a[1]=i[1];
         else
-            a[1]=size[1]-i[1];
+            a[1]=stack_a.size-i[1];
         if(min>(a[0]+a[1]))
         {
             min=a[0]+a[1];
-            b[0]=i[0];
-            b[1]=i[1];
+            *index_b=i[0];
+            *index_a=i[1];
         }
-        tail2=tail2->prev;
+        (stack_b.tail)=(stack_b.tail)->prev;
     }
-    return b;
 }
-void arrange_chunk_b(t_list **root, t_list **tail, t_list **root2, t_list **tail2)
+
+void   sort_stack(t_stack *stack_a, t_stack *stack_b)
+{
+    int index_a;
+    int index_b;
+
+    arrange_chunk_b(stack_a, stack_b);
+    while(stack_b->size)
+    {
+        find_min_path(*stack_a,*stack_b,&index_a,&index_b);
+        if (index_a < (stack_a->size/ 2))
+		    while (index_a-- > 0)
+			    shift_up_r(stack_a,'a',1);
+	    else
+		    while (index_a++ < stack_a->size)
+			    shift_down_rr(stack_a,'a',1);
+	    if (index_b < (stack_b->size / 2))
+		    while (index_b-- > 0)
+			    shift_up_r(stack_b,'b',1);
+	    else
+		    while (index_b++ < stack_b->size)
+			    shift_down_rr(stack_b,'b',1);
+        push_a(stack_a,stack_b,1);
+    }
+    sort_final(stack_a);
+}
+
+void arrange_chunk_b(t_stack *stack_a, t_stack *stack_b)
 {
     int pivot;
-    int is_size;
     int i;
+    int size;
 
-    is_size = list_size(*root,*tail);
-    pivot=pivot_finder(*root,*tail);
+    pivot=pivot_finder(*stack_a);
     i = 0;
-    if(is_size < 3)
+    size = stack_a->size;
+    if(size < 3)
     {
-        if(is_size == 1)
-            push_b(root,tail,root2,tail2);
+        if(stack_a->size == 1)
+            push_a(stack_a,stack_b,1);
         return;
     }
-    while (is_size>i)
+    while (size>i)
     {
-        if(pivot >= (*tail)->index)
+        if(pivot >= (stack_a->tail)->index)
         {
-            push_a(root,tail,root2,tail2);
+            push_b(stack_a,stack_b,1);
         }
         else
-            shift_up_r(root,tail,'a');
+            shift_up_r(stack_a,'a',1);
         i++;
     }
-    arrange_chunk_b(root,tail,root2,tail2);
+    arrange_chunk_b(stack_a,stack_b);
 }
 
-void sort_final(t_list **root, t_list **tail, t_list **root2, t_list **tail2)
+void sort_final(t_stack *stacks)
 {
     int r_num;
     int rr_num;
 
-    r_num = find_min_rotate(*root,*tail,0,list_size(*root,*tail));
-    rr_num = find_min_rrb(*root,*tail,0,list_size(*root,*tail));
+    r_num = find_min_rotate(*stacks,0,stacks->size);
+    rr_num = find_min_rrb(*stacks,0,stacks->size);
     if (r_num<rr_num)
     {
-        r_x_times(root,tail,r_num);
+        r_x_times(stacks,r_num);
     }
     else if (r_num>=rr_num)
     {
-        rr_x_times(root,tail,rr_num);
+        rr_x_times(stacks,rr_num);
     }
 }
 
-void sort_stack(t_list **root, t_list **tail, t_list **root2, t_list **tail2)
+void sort_small_stacks(t_stack *stack_a, t_stack *stack_b, int argc)
 {
-    int size[2];
-    int *indexes;
-    
-    arrange_chunk_b(root,tail,root2,tail2);
-    size[0]=list_size(*root2,*tail2);
-    size[1]=list_size(*root,*tail);
-    while(size[0])
+    if(argc == 2)
     {
-        indexes=find_min_path(*root,*tail,*root2,*tail2);
-        if (indexes[1] < (size[1]) / 2)
-		    while (indexes[1]-- > 0)
-			    shift_up_r(root,tail,'a');
-	    else
-		    while (indexes[1]++ < size[1])
-			    shift_down_rr(root,tail,'a');
-	    if (indexes[0] < (size[0] / 2))
-		    while (indexes[0]-- > 0)
-			    shift_up_r(root2,tail2,'b');
-	    else
-		    while (indexes[0]++ < size[0])
-			    shift_down_rr(root2,tail2,'b');
-        push_b(root,tail,root2,tail2);
-        size[0]--;
-        size[1]++;
-        free(indexes);
+        if((stack_a->root)->num < (stack_a->tail)->num)
+            swap_s(stack_a,'a',1);
     }
-    sort_final(root,tail,root2,tail2);
+    else if(argc == 3)
+        tree_arg_sort(stack_a, stack_b);
+    else if(argc == 4)
+        quad_arg_sort(stack_a, stack_b);
+    else if (argc == 5)
+        nonp_arg_sort(stack_a, stack_b);
 }

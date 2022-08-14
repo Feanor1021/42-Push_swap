@@ -1,47 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_prchrstrng.c                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyardimc <fyardimc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/06 21:26:07 by fyardimc          #+#    #+#             */
-/*   Updated: 2022/08/14 12:52:45 by fyardimc         ###   ########.fr       */
+/*   Created: 2022/07/25 16:56:17 by fyardimc          #+#    #+#             */
+/*   Updated: 2022/08/14 03:04:50 by fyardimc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int	ft_put_char(char c)
-{
-	write(1, &c, 1);
-	return (1);
-}
+#include "push_swap.h"
+# include <stdlib.h>
+# include <unistd.h>
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 12323
+# endif
 
-	i = 0;
-	while (*(s + i))
-		i++;
-	return (i);
-}
+char	*get_next_line(int fd);
+char	*get_till_n(int fd, char *line);
 
-int	ft_put_string(const char *str)
-{
-	int	str_size;
+char	*get_line(char *line);
+char	*skip_next_n(char *line);
 
-	str_size = 0;
-	if (str == NULL)
-		str_size += ft_put_string("(null)");
-	else
-	{
-		while (str[str_size])
-		{
-			ft_put_char(str[str_size]);
-			str_size++;
-		}
-	}
-	return (str_size);
-}
+char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char *s1, char *s2);
+
+#endif

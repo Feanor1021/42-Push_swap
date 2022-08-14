@@ -13,10 +13,6 @@ static int ft_isdigit_all(const char *str)
     int flag;
 
     flag = 0;
-    if (*str == '-')
-    {
-        str++;
-    }
     while(*str)
     {
     if (!(*str >= 48 && *str <=57))
@@ -38,9 +34,7 @@ t_list*   ft_atol(const char *str, t_list *tail)
     long    num;
     int        sign;
 	t_list *node;
-
-	if (!ft_isdigit_all(str))
-		return NULL;
+    
     num = 0;
     sign = 1;
     while ((*str >= 9 && *str <= 13) || *str == ' ')
@@ -53,6 +47,8 @@ t_list*   ft_atol(const char *str, t_list *tail)
         if(*str == '\0')
             return NULL;
     }
+    if (!ft_isdigit_all(str))
+		return NULL;
     while ((*str <= '9' && *str >= '0'))
     {
         num = (num * 10) + (*str - 48);

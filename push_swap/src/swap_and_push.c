@@ -1,45 +1,71 @@
 #include "push_swap.h"
 
 
-void push_a(t_list **root , t_list **tail, t_list **root2 , t_list **tail2)
+void push_b(t_stack* stack_a, t_stack* stack_b, int flag)
 {
+      if(stack_a->size == 0)
+        return;
+    if(flag == 1)
     ft_printf("pb\n");
-    add_node_to_stack(root2,tail2,pop_stack(root,tail));
+    stack_a->size--;
+    stack_b->size++;
+    if(!add_node_to_stack(stack_b,pop_stack(stack_a)))
+        return ;
 }
 
-void push_b(t_list **root , t_list **tail, t_list **root2 , t_list **tail2)
+void push_a(t_stack* stack_a, t_stack* stack_b, int flag)
 {
+    if(stack_b->size == 0)
+        return;
+    if(flag == 1)
     ft_printf("pa\n");
-    if(root2==NULL && tail2==NULL)
-    return;
-    add_node_to_stack(root,tail,pop_stack(root2,tail2));
+    stack_a->size++;
+    stack_b->size--;
+    if(!add_node_to_stack(stack_a,pop_stack(stack_b)))
+        return ;
 }
 
-void swap_s(t_list **tail,char id)
+void swap_s(t_stack *stacks, char id,int flag)
 {
     int num;
     int index;
-    if (id == 'a')
-        ft_printf("sa\n");
-    else
-        ft_printf("sb\n");
-    num = (*tail)->num;
-    index = (*tail)->index;
-    (*tail)->num = (*tail)->prev->num;
-    (*tail)->index = (*tail)->prev->index;
-    (*tail)->prev->num = num;
-    (*tail)->prev->index = index;
+
+    if(stacks->tail == NULL||stacks->size == 1)
+        return ;
+    if(flag == 1)
+    {
+        if (id == 'a')
+            ft_printf("sa\n");
+        else
+            ft_printf("sb\n");
+    }
+    num = (stacks->tail)->num;
+    index = (stacks->tail)->index;
+    (stacks->tail)->num = (stacks->tail)->prev->num;
+    (stacks->tail)->index = (stacks->tail)->prev->index;
+    (stacks->tail)->prev->num = num;
+    (stacks->tail)->prev->index = index;
 }
 
-void swap_both( t_list **tail, t_list **tail2)
+void swap_both( t_stack *stack_a, t_stack *stack_b,int flag)
 {
     int num;
+    int index;
 
+    if((stack_a->tail) == NULL || (stack_b->tail) == NULL || stack_a->size == 1 || stack_b->size == 1)
+        return ;
+    if(flag == 1)
     ft_printf("ss\n");
-    num = (*tail)->num;
-    (*tail)->num = (*tail)->prev->num;
-    (*tail)->prev->num = num;
-    num = (*tail2)->num;
-    (*tail2)->num = (*tail2)->prev->num;
-    (*tail2)->prev->num = num;
+    num = (stack_a->tail)->num;
+    index = (stack_a->tail)->index;
+    (stack_a->tail)->num = (stack_a->tail)->prev->num;
+    (stack_a->tail)->index = (stack_a->tail)->prev->index;
+    (stack_a->tail)->prev->num = num;
+    (stack_a->tail)->prev->index = index;
+    num = (stack_b->tail)->num;
+    index = (stack_b->tail)->index;
+    (stack_b->tail)->num = (stack_b->tail)->prev->num;
+    (stack_b->tail)->index = (stack_b->tail)->prev->index;
+    (stack_b->tail)->prev->num = num;
+    (stack_b->tail)->prev->index = index;
 }
